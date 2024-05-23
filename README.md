@@ -48,18 +48,18 @@ DVC helps data scientists adopt best practices for organizing their projects and
 
 ### DVC Practice Workflow
 #### Step-by-Step Guide
-1. [x] Create a sample data file (`data/data.txt`):
+1. Create a sample data file (`data/data.txt`):
     ```text
     First version of data
     ```
 
-2. [x] Initialize DVC:
+2. Initialize DVC:
     ```bash
     dvc init
     ```
     The command will create `.dvc` folder and `.dvcignore`.
 
-3. [x] Add data file to DVC tracking:
+3. Add data file to DVC tracking:
     ```bash
     dvc add data/data.txt
     ```
@@ -67,89 +67,93 @@ DVC helps data scientists adopt best practices for organizing their projects and
     - Adds the `data/data.txt` path to `data/.gitignore` to ensure that the data file is not tracked by Git but by DVC instead.
     - Generates a `.dvc` file (e.g., `data/data.txt.dvc`), which contains metadata about the data file such as its MD5 hash, size, and relative path.
     - Stores a copy of the data file in the DVC cache located in the `.dvc/cache directory`. This cached file serves as a reference and is identified by a hash value derived from the file’s content, rather than creating a duplicate of the original file.
-Creates .gitignore and data.txt.dvc.
-Adds a reference link in the .dvc/cache folder.
-Modify the data file:
 
-kotlin
-Copy code
-First version of data. (modified)
-Add the changed file:
-bash
-Copy code
-dvc add data/data.txt
-Commit changes to Git:
+4. Modify the data file:
+    ```text
+    First version of data. (modified)
+    ```
+    - Add the changed file:
+        ```bash
+        dvc add data/data.txt
+        ```
+5. Commit changes to Git:
+    ```bash
+    git add .
+    git commit -m "Updated data.txt with modifications"
+    ```
+6. Further modify the data file:
+    ```text
+    First version of data. (modified)
+    Second edition
+    ```
+    - Add the modified file:
+        ```bash
+        dvc add data/data.txt
+        ```
+    - Commit changes:
+        ```bash
+        git add .
+        git commit -m "Added second edition to data.txt"
+        ```
+7. Rollback data changes:
+    - Find the previous commit ID:
+        ```bash
+        git log
+        ```
+    - Checkout the desired commit:
+        ```bash
+        git checkout {commit_id}
+        ```
+    - Restore the data:
+        ```bash
+        dvc checkout
+        ```
+8. Return to the main branch:
+    ```bash
+    git checkout main
+    dvc checkout
+    ```
+### Using AWS S3 as Remote Storage for DVC
+#### Configuration Steps
 
-bash
-Copy code
-git add .
-git commit -m "Updated data.txt with modifications"
-Further modify the data file:
+1. Install `awscli`:
+    ```bash
+    conda install conda-forge::awscli
+    ```
 
-sql
-Copy code
-First version of data. (modified)
-Second edition
-Add the modified file:
-bash
-Copy code
-dvc add data/data.txt
-Commit changes:
-bash
-Copy code
-git add .
-git commit -m "Added second edition to data.txt"
-Rollback data changes:
+2. Configure AWS profile:
+    ```bash
+    aws configure --profile dvc-s3-profile
+    ```
 
-Find the previous commit ID:
-bash
-Copy code
-git log
-Checkout the desired commit:
-bash
-Copy code
-git checkout {commit_id}
-Restore the data:
-bash
-Copy code
-dvc checkout
-Return to the main branch:
+3. Add S3 remote storage:
+    ```bash
+    dvc remote add -d myremote s3://saiful-dvc-remote-bucket/project-of-the-week-dvc/
+    ```
+4. Modify the remote to use the AWS profile:
+    ```bash
+    dvc remote modify myremote --local profile dvc-s3-profile
+    ```
+    Note: The --local flag ensures this configuration is not tracked by Git.
+5. Verify the setup:
+    - Add a new data file (data/bank-marketing.csv) and track with DVC:
+        ```bash
+        dvc add data/bank-marketing.csv
+        ```
+    - Commit the changes:
+        ```bash
+        git add .
+        git commit -m "Added bank-marketing.csv and tracked with DVC"
+        ```
+    - Push DVC cache to remote:
+        ```bash
+        dvc push
+        ```
+    - Check the S3 bucket for the uploaded data.
 
-bash
-Copy code
-git checkout main
-dvc checkout
-Using AWS S3 as Remote Storage for DVC
-Configuration Steps
-Configure AWS profile:
-
-bash
-Copy code
-aws configure --profile dvc-s3-profile
-Add S3 remote storage:
-
-bash
-Copy code
-dvc remote add -d myremote s3://saiful-dvc-remote-bucket/project-of-the-week-dvc/
-Modify the remote to use the AWS profile:
-
-bash
-Copy code
-dvc remote modify myremote --local profile dvc-s3-profile
-Note: The --local flag ensures this configuration is not tracked by Git.
-Verify the setup:
-
-Add a new data file (data/bank-marketing.csv) and track with DVC:
-bash
-Copy code
-dvc add data/bank-marketing.csv
-Commit the changes:
-bash
-Copy code
-git add .
-git commit -m "Added bank-marketing.csv and tracked with DVC"
-Push DVC cache to remote:
-bash
-Copy code
-dvc push
-Check the S3 bucket for the uploaded data.
+## Day 2
+- [ ] Create an ML project pipeline that contains a processing, training, and evaluation step. For dataset ideas check the first link in the suggested materials [1]. I would suggest using small datasets and light libraries (sklearn and datasets) remember, the goal is to explore/learn the tool.
+- [ ] For ideas on how to split your ML pipeline, you can check the official example: [2]. I made also a simple ml pipeline with a random forest with iris data if you want to copy: [3]
+- [ ] Create a params.yml that is going to store important parameters for the processing and training steps of your ML pipeline. Check these examples: Official example [4], mine more simple example [5]
+- [ ] Push your changes to GitHub.
+- [ ] Share your progress in Slack and on social media.
