@@ -16,7 +16,7 @@ DVC helps data scientists adopt best practices for organizing their projects and
 ### Tasks Completed
 - [x] Create a GitHub repository
     - Repository: [project-of-the-week-dvc](https://github.com/saifulrijal-ds/project-of-the-week-dvc)
-- [x] Install DVC in your own OS with [2]
+- [x] Install DVC in your own OS with [2], I work on Ubuntu.
     - Prerequisite: Git must be installed.
     ```bash
     git --version
@@ -46,24 +46,27 @@ DVC helps data scientists adopt best practices for organizing their projects and
 - [x] Share your progress in Slack and on social media.
 
 
-DVC Practice Workflow
-Step-by-Step Guide
-Create a sample data file (data/data.txt):
+### DVC Practice Workflow
+#### Step-by-Step Guide
+1. [x] Create a sample data file (`data/data.txt`):
+    ```text
+    First version of data
+    ```
 
-kotlin
-Copy code
-First version of data
-Initialize DVC:
+2. [x] Initialize DVC:
+    ```bash
+    dvc init
+    ```
+    The command will create `.dvc` folder and `.dvcignore`.
 
-bash
-Copy code
-dvc init
-Creates .dvc and .dvcignore folders.
-Add file to DVC tracking:
-
-bash
-Copy code
-dvc add data/data.txt
+3. [x] Add data file to DVC tracking:
+    ```bash
+    dvc add data/data.txt
+    ```
+    DVC performs the following action:
+    - Adds the `data/data.txt` path to `data/.gitignore` to ensure that the data file is not tracked by Git but by DVC instead.
+    - Generates a `.dvc` file (e.g., `data/data.txt.dvc`), which contains metadata about the data file such as its MD5 hash, size, and relative path.
+    - Stores a copy of the data file in the DVC cache located in the `.dvc/cache directory`. This cached file serves as a reference and is identified by a hash value derived from the file’s content, rather than creating a duplicate of the original file.
 Creates .gitignore and data.txt.dvc.
 Adds a reference link in the .dvc/cache folder.
 Modify the data file:
