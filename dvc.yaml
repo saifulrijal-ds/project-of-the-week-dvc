@@ -1,0 +1,23 @@
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - data/bank-marketing.csv
+    - src/prepare.py
+    outs:
+    - data/preprocessed/
+  train:
+    cmd: python src/train.py
+    deps:
+    - data/preprocessed/
+    - src/train.py
+    outs:
+    - models/
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - data/preprocessed/
+    - models/
+    - src/evaluate.py
+    outs:
+    - metrics/
