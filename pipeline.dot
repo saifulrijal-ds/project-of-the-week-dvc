@@ -1,0 +1,12 @@
+strict digraph  {
+"prepare";
+"train";
+"evaluate";
+"data/bank-marketing.csv.dvc";
+"data/data.txt.dvc";
+"prepare" -> "train";
+"prepare" -> "evaluate";
+"train" -> "evaluate";
+"data/bank-marketing.csv.dvc" -> "prepare";
+}
+
