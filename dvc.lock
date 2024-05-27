@@ -1,0 +1,60 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/prepare.py
+    deps:
+    - path: data/bank-marketing.csv
+      hash: md5
+      md5: f6cb2c1256ffe2836b36df321f46e92c
+      size: 5834924
+    - path: src/prepare.py
+      hash: md5
+      md5: 75134978e02e82013a87992dd3807f2b
+      size: 1356
+    outs:
+    - path: data/preprocessed/
+      hash: md5
+      md5: 3a71ae51799807c7c4c07c761b6845f5.dir
+      size: 4912222
+      nfiles: 2
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/preprocessed/
+      hash: md5
+      md5: 3a71ae51799807c7c4c07c761b6845f5.dir
+      size: 4912222
+      nfiles: 2
+    - path: src/train.py
+      hash: md5
+      md5: 6a6c45820e5acf3d852d713e491def3b
+      size: 2678
+    outs:
+    - path: models/
+      hash: md5
+      md5: 9517bddca2fbccd1d9dc7e3341eacb6f.dir
+      size: 539361
+      nfiles: 2
+  evaluate:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/preprocessed/
+      hash: md5
+      md5: 3a71ae51799807c7c4c07c761b6845f5.dir
+      size: 4912222
+      nfiles: 2
+    - path: models/
+      hash: md5
+      md5: 9517bddca2fbccd1d9dc7e3341eacb6f.dir
+      size: 539361
+      nfiles: 2
+    - path: src/evaluate.py
+      hash: md5
+      md5: f7c7dd4f09b3f78d018fdecae344b2f6
+      size: 2931
+    outs:
+    - path: metrics/
+      hash: md5
+      md5: 03d0ef6a38320e013d3304087440054e.dir
+      size: 120
+      nfiles: 1
