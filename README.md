@@ -348,3 +348,7 @@ dvc status
 
 # Data and pipelines are up to date.
 ```
+and push to update the dvc remote storage
+```bash
+dvc push
+```
