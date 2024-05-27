@@ -341,7 +341,7 @@ dvc dag
 | data/data.txt.dvc |  
 +-------------------+  
 ```
-_I don't know why `data/data.txt.dvc` appears in the dag, I don't think I included it in any stage_
+_I don't know why `data/data.txt.dvc` appears in the dag, I don't think I included it in any stage_.
 And don't forget to check the Git and DVC status.
 ```bash
 dvc status
