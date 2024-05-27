@@ -10,6 +10,7 @@ import joblib
 import yaml
 import os
 import pandas as pd
+import numpy as np
 
 def evaluate_model():
     with open('params.yaml') as f:
@@ -57,6 +58,25 @@ def evaluate_model():
     print(cm)
     print("\n")
     print(classification_report(y_test_encoded, y_pred))
+
+    # Create metrics folder if it doesn't exist
+    if not os.path.exists(metrics_dir):
+        os.makedirs(metrics_dir)
+        print('Directory created:', metrics_dir)
+    else:
+        print('Directory already exists:', metrics_dir)
+
+    # Save metrics to a text file
+    with open(os.path.join(metrics_dir, 'metrics.txt'), "w") as f:
+        f.write(f"Accuracy: {accuracy:.4f}\n")
+        f.write(f"F1 Score: {f1:.4f}\n")
+        f.write(f"Recall: {recall:.4f}\n")
+        f.write(f"Precision: {precision:.4f}\n")
+        f.write(f"ROC AUC: {roc_auc:.4f}\n\n")
+        f.write("Confusion Matrix:\n")
+        np.savetxt(f, cm, fmt="%d")
+
+    print("Metrics saved to metrics/metrics.txt")
 
 if __name__ == '__main__':
     evaluate_model()
