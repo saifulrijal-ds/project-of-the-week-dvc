@@ -1,0 +1,28 @@
+prepare:
+  seed: 20240524
+  test_size: 0.30
+  data_source: data/bank-marketing.csv
+  train_test_dir: data/preprocessed/
+  drop_columns: []
+
+train:
+  seed: 20240524
+  train_test_dir: data/preprocessed/
+  train_file: train.csv
+  target_column: y
+  model_artifacts_dir: models/
+  rf_parameters:
+    n_estimators: 100
+    max_depth: 5
+    min_samples_split: 2
+    min_samples_leaf: 1
+
+evaluate:
+  train_test_dir: data/preprocessed/
+  train_file: train.csv
+  test_file: test.csv
+  target_column: y
+  model_artifacts_dir: models/
+  model_file: model.joblib
+  label_encoder_file: label_encoder.joblib
+  metrics_dir: metrics/
